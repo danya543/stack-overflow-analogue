@@ -3,16 +3,15 @@ import { createBrowserRouter } from 'react-router-dom';
 
 import { LazyAbout } from '@/pages/about/About.lazy';
 import { LoginPage } from '@/pages/Login/Login';
+import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
 import { RegisterPage } from '@/pages/Register/Register';
 import { Shop } from '@/pages/shop';
 import { SignLayout } from '@/pages/SignLayout/SignLayout';
 
-import { App } from '../App';
-
 export const router = createBrowserRouter([
   {
     path: '/',
-    element: <App />,
+    element: <MainLayout />,
     children: [
       {
         path: '/about',
