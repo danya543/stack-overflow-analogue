@@ -8,5 +8,5 @@ export const LoginPage = () => {
       <input type="password" placeholder="Password" />
       <button type="submit">Login</button>
     </form>
-  )
-}
+  );
+};

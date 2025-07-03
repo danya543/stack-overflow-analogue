@@ -9,5 +9,5 @@ export const RegisterPage = () => {
       <input type="password" placeholder="Confirm Password" />
       <button type="submit">Register</button>
     </form>
-  )
-}
+  );
+};

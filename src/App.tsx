@@ -5,7 +5,7 @@ import * as styles from './App.module.scss';
 
 export const App = () => {
   const [count, setCount] = useState<number>(0);
-  const handleCount = () => setCount(prev => ++prev);
+  const handleCount = () => setCount((prev) => ++prev);
 
   return (
     <div>
