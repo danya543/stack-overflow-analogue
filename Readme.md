@@ -1,4 +1,4 @@
-# Stack overflow
+# Stack overflow analogue
 
 # [Deploy](https://stack-overflow-analogue.netlify.app/)
 

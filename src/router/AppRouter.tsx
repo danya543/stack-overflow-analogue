@@ -1,11 +1,10 @@
 import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { LazyAbout } from '@/pages/about/About.lazy';
-import { LoginPage } from '@/pages/Login/Login';
+import { LoginButton } from '@/components/A/A';
+import { LoginPage } from '@/pages/Authorized/Login';
+import { RegisterPage } from '@/pages/Authorized/Register';
 import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
-import { RegisterPage } from '@/pages/Register/Register';
-import { Shop } from '@/pages/shop';
 import { SignLayout } from '@/pages/SignLayout/SignLayout';
 
 export const router = createBrowserRouter([
@@ -14,20 +13,8 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: '/about',
-        element: (
-          <Suspense fallback={'Loading...'}>
-            <LazyAbout />
-          </Suspense>
-        ),
-      },
-      {
-        path: '/shop',
-        element: (
-          <Suspense fallback={'Loading...'}>
-            <Shop />
-          </Suspense>
-        ),
+        path: '/a',
+        element: <LoginButton />,
       },
     ],
   },
