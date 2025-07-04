@@ -1,12 +1,13 @@
 import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
-import { LoginButton } from '@/components/A/A';
 import { AccountPage } from '@/pages/Account/Account';
 import { LoginPage } from '@/pages/Authorized/Login';
 import { RegisterPage } from '@/pages/Authorized/Register';
+import { MainPage } from '@/pages/Main/Main';
 import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
 import { SignLayout } from '@/pages/SignLayout/SignLayout';
+import { UsersPage } from '@/pages/Users/Users';
 
 export const router = createBrowserRouter([
   {
@@ -14,8 +15,12 @@ export const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       {
-        path: '/a',
-        element: <LoginButton />,
+        path: '',
+        element: <MainPage />,
+      },
+      {
+        path: '/users',
+        element: <UsersPage />,
       },
       {
         path: '/account',
