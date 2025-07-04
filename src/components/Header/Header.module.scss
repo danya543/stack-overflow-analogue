@@ -1,0 +1,16 @@
+.header{
+    position: sticky;
+    padding: 0 15px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 70px;
+    background: rgb(106, 106, 255);
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+
+    button{
+        background: #4b4bff;
+    }
+}

@@ -2,6 +2,7 @@ import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 import { LoginButton } from '@/components/A/A';
+import { AccountPage } from '@/pages/Account/Account';
 import { LoginPage } from '@/pages/Authorized/Login';
 import { RegisterPage } from '@/pages/Authorized/Register';
 import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
@@ -15,6 +16,10 @@ export const router = createBrowserRouter([
       {
         path: '/a',
         element: <LoginButton />,
+      },
+      {
+        path: '/account',
+        element: <AccountPage />,
       },
     ],
   },

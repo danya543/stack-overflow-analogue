@@ -1,0 +1,16 @@
+.container{
+    grid-area: menu;
+    border-top: 3px solid rgb(76, 76, 255);
+    width: 20%;
+    min-width: 180px;
+    height: calc(100vh - 70px);
+    background: rgb(106, 106, 255);
+    padding: 10px 0 0 20px;
+    
+    .menu{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 10px;
+    }
+}

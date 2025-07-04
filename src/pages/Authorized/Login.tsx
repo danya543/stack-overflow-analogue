@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 
+import { getAuthUser } from '@/api/auth';
 import { useLogin } from '@/hooks/useLogin';
 import { Button } from '@/ui/Button';
 import { Input } from '@/ui/Input';
@@ -15,6 +16,12 @@ export const LoginPage = () => {
   });
 
   const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    getAuthUser()
+      .then(() => console.log('ok'))
+      .catch(() => console.log('err'));
+  }, []);
 
   useEffect(() => {
     if (success) {

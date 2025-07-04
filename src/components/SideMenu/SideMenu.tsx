@@ -1,12 +1,24 @@
 import { Link } from 'react-router-dom';
 
+import { Button } from '@/ui/Button';
+
+import * as styles from './SideMenu.module.scss';
+
 export const SideMenu = () => {
+  const handleOpenMenu = () => {
+    console.log('first');
+  };
+
   return (
-    <div>
-      <ul>
+    <div className={styles.container}>
+      <ul className={styles.menu}>
+        <Button onClick={handleOpenMenu}>Profile</Button>
         <Link to={'/'}>Home</Link>
-        <Link to={'/about'}>About</Link>
-        <Link to={'/sign/login'}>Login</Link>
+        <Link to={'/account'}>My account</Link>
+        <Link to={'/about'}>Post snippet</Link>
+        <Link to={'/about'}>My snippets</Link>
+        <Link to={'/about'}>Questions</Link>
+        <Link to={'/sign/login'}>Users</Link>
       </ul>
     </div>
   );

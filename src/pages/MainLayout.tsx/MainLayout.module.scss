@@ -1,0 +1,10 @@
+.container{
+    display: grid;
+    grid-template-areas: 
+    'header header header'
+    'menu content content'
+    'menu content content';
+    header{
+        grid-area: header;
+    }
+}
