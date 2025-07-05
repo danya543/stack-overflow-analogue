@@ -8,12 +8,16 @@ import { Configuration } from "webpack";
 
 import { BuildOptions } from "./types/types";
 
-export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plugins'] {
+export function buildPlugins({ mode, paths, title }: BuildOptions): Configuration['plugins'] {
     const isDev = mode === 'development';
     const envVars = dotenv.config().parsed || {};
 
     const plugins: Configuration['plugins'] = [
-        new HtmlWebpackPlugin({ template: paths.html, favicon: path.resolve(paths.public, 'favicon.ico') }),
+        new HtmlWebpackPlugin({ 
+            template: paths.html, 
+            favicon: path.resolve(paths.public, 'favicon.ico'),
+            title:'title'
+        }),
         new ESLintPlugin({
             extensions: ['ts', 'tsx'],
             emitWarning: true,

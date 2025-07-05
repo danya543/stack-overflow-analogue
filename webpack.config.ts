@@ -11,6 +11,7 @@ interface EnvVariables {
 }
 
 export default (env: EnvVariables) => {
+    const title='Codelang';
     const paths: BuildPaths = {
         entry: path.resolve(__dirname, 'src', 'index.tsx'),
         output: path.resolve(__dirname, 'build'),
@@ -20,6 +21,7 @@ export default (env: EnvVariables) => {
     }
     const config: webpack.Configuration = buildWebpack({
         port: env.port ?? 3000,
+        title:title,
         mode: env.mode ?? 'development',
         analyzer: env.analyzer,
         paths

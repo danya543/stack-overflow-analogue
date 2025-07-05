@@ -1,24 +1,32 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { getUsers, userProps } from '@/api/getUsers';
 
+import * as styles from './Users.module.scss';
+
 export const UsersPage = () => {
-  const [data, setData] = useState<userProps[]>([]);
+  const [data, setData] = useState<userProps[] | null>(null);
+  const navigate = useNavigate();
+
   useEffect(() => {
     getUsers({})
       .then((data) => {
         setData(data.data.data);
-        console.log('ok');
       })
-      .catch(() => console.log('fail'));
+      .catch((err) => console.error(err));
   }, []);
 
   return (
-    <div>
-      Main
-      {data.map((user) => (
-        <p key={user.id}>{user.username}</p>
-      ))}
-    </div>
+    <section className={styles.container}>
+      {data
+        ? data.map((user) => (
+            <div key={user.id} onClick={() => navigate(`${user.id}`)} className={styles.user}>
+              <p>Name: {user.username},</p>
+              <p>Role: {user.role}</p>
+            </div>
+          ))
+        : 'Loading...'}
+    </section>
   );
 };
