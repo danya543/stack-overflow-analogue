@@ -17,7 +17,7 @@ export const SideMenu = () => {
         <Link to={'/account'}>My account</Link>
         <Link to={'/about'}>Post snippet</Link>
         <Link to={'/about'}>My snippets</Link>
-        <Link to={'/about'}>Questions</Link>
+        <Link to={'/questions'}>Questions</Link>
         <Link to={'/users'}>Users</Link>
       </ul>
     </div>

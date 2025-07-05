@@ -11,7 +11,6 @@ export type BuildMode = 'development' | 'production';
 export interface BuildOptions {
     port: number,
     paths: BuildPaths,
-    title: string,
     mode: BuildMode,
     analyzer?: boolean
 }

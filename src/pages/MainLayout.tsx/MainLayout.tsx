@@ -10,7 +10,9 @@ export const MainLayout = () => {
     <section className={styles.container}>
       <Header />
       <SideMenu />
-      <Outlet />
+      <main className={styles.content}>
+        <Outlet />
+      </main>
     </section>
   );
 };

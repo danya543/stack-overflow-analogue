@@ -6,6 +6,12 @@
     height: calc(100vh - 70px);
     background: rgb(106, 106, 255);
     padding: 10px 0 0 20px;
+
+    position: fixed;
+    top: 60px;
+    left: 0;
+    bottom: 0;
+    z-index: 5;
     
     .menu{
         display: flex;

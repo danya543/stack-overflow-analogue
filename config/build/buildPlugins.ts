@@ -8,7 +8,7 @@ import { Configuration } from "webpack";
 
 import { BuildOptions } from "./types/types";
 
-export function buildPlugins({ mode, paths, title }: BuildOptions): Configuration['plugins'] {
+export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plugins'] {
     const isDev = mode === 'development';
     const envVars = dotenv.config().parsed || {};
 
@@ -16,7 +16,6 @@ export function buildPlugins({ mode, paths, title }: BuildOptions): Configuratio
         new HtmlWebpackPlugin({ 
             template: paths.html, 
             favicon: path.resolve(paths.public, 'favicon.ico'),
-            title:'title'
         }),
         new ESLintPlugin({
             extensions: ['ts', 'tsx'],

@@ -6,6 +6,7 @@ import { LoginPage } from '@/pages/Authorized/Login';
 import { RegisterPage } from '@/pages/Authorized/Register';
 import { MainPage } from '@/pages/Main/Main';
 import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
+import { QuestionsPage } from '@/pages/Questions/Questions';
 import { SignLayout } from '@/pages/SignLayout/SignLayout';
 import { UserPage } from '@/pages/User/User';
 import { UsersPage } from '@/pages/Users/Users';
@@ -26,6 +27,10 @@ export const router = createBrowserRouter([
       {
         path: '/users/:id',
         element: <UserPage />,
+      },
+      {
+        path: '/questions',
+        element: <QuestionsPage />,
       },
       {
         path: '/account',
