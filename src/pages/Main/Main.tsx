@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
 
-import { getSnippets, snippetProps } from '@/api/getSnippets';
+import { getSnippets } from '@/api/getSnippets';
+import { SnippetProps } from '@/api/types';
 import { Snippet } from '@/components/Snippet/Snippet';
 
 export const MainPage = () => {
-  const [data, setData] = useState<snippetProps[] | null>(null);
+  const [data, setData] = useState<SnippetProps[] | null>(null);
   useEffect(() => {
     getSnippets({})
       .then((data) => setData(data.data.data))

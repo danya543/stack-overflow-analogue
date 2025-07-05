@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 
-import { getQuestions, questionProps } from '@/api/getQuestions';
+import { getQuestions } from '@/api/getQuestions';
+import { Question } from '@/api/types';
 
 export const QuestionsPage = () => {
-  const [data, setData] = useState<questionProps[] | null>(null);
+  const [data, setData] = useState<Question[] | null>(null);
   useEffect(() => {
     getQuestions({})
       .then((data) => setData(data.data.data))

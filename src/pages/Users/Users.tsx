@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { getUsers, userProps } from '@/api/getUsers';
+import { getUsers } from '@/api/getUsers';
+import { UserBase } from '@/api/types';
 
 import * as styles from './Users.module.scss';
 
 export const UsersPage = () => {
-  const [data, setData] = useState<userProps[] | null>(null);
+  const [data, setData] = useState<UserBase[] | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {

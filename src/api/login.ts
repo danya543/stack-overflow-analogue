@@ -1,17 +1,7 @@
 import axios, { type AxiosResponse } from 'axios';
 
 import { BASE_API_URL } from './constants';
-
-export interface LoginUserResponse {
-  username: string;
-  email: string;
-  id: number;
-}
-
-interface LoginUserPayload {
-  username: string;
-  password: string;
-}
+import { LoginUserPayload, LoginUserResponse } from './types';
 
 export async function loginUser(user: LoginUserPayload) {
   const { data } = await axios.post<

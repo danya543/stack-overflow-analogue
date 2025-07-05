@@ -1,33 +1,31 @@
 import axios from 'axios';
 
 import { BASE_API_URL } from './constants';
+import { GetUsersPayload, GetUsersResponse } from './types';
 
-export interface userProps {
-  username: string;
-  role: string;
-  id: number;
-}
-export interface getUsersResponse {
-  data: {
-    data: userProps[];
-  };
-}
+export async function getUsers({
+  page = 1,
+  limit = 10,
+  sortBy = ['createdAt:ASC'],
+  search,
+}: GetUsersPayload) {
+  const params = new URLSearchParams();
 
-interface getUsersPayload {
-  page?: number;
-  limit?: number;
-}
+  params.append('page', page.toString());
+  params.append('limit', limit.toString());
 
-export async function getUsers({ page = 1, limit = 10 }: getUsersPayload) {
-  const { data } = await axios.get<getUsersResponse>(
-    `${BASE_API_URL}/users?page=${page}&limit=${limit}`,
-    {
-      headers: {
-        accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
+  sortBy.forEach((sort) => params.append('sortBy', sort));
+
+  if (search && search.trim() !== '') {
+    params.append('search', search);
+  }
+
+  const { data } = await axios.get<GetUsersResponse>(`${BASE_API_URL}/users?${params.toString()}`, {
+    headers: {
+      accept: 'application/json',
+      'Content-Type': 'application/json',
     },
-  );
+  });
 
   return data;
 }

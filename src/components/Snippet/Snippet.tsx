@@ -3,11 +3,11 @@ import { useState } from 'react';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
-import { snippetProps } from '@/api/getSnippets';
+import { SnippetProps } from '@/api/types';
 
 import * as styles from './Snippet.module.scss';
 
-export const Snippet = ({ data }: { data: snippetProps }) => {
+export const Snippet = ({ data }: { data: SnippetProps }) => {
   const [showComments, setShowComments] = useState(false);
 
   const likes = data.marks.filter((mark) => mark.type === 'like').length;

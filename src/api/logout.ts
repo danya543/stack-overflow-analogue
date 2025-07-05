@@ -1,12 +1,7 @@
 import axios from 'axios';
 
 import { BASE_API_URL } from './constants';
-
-export interface LogoutUserResponse {
-  username: string;
-  email: string;
-  id: number;
-}
+import { LogoutUserResponse } from './types';
 
 export async function logoutUser() {
   const { data } = await axios.post<LogoutUserResponse>(`${BASE_API_URL}/auth/logout`, {

@@ -1,15 +1,10 @@
 import axios from 'axios';
 
 import { BASE_API_URL } from './constants';
-
-export interface AuthUserResponse {
-  username: string;
-  role: string;
-  id: number;
-}
+import { UserBase } from './types';
 
 export async function getAuthUser() {
-  const { data } = await axios.get<AuthUserResponse>(`${BASE_API_URL}/auth`, {
+  const { data } = await axios.get<UserBase>(`${BASE_API_URL}/auth`, {
     headers: { accept: 'application/json', 'Content-Type': 'application/json' },
   });
 

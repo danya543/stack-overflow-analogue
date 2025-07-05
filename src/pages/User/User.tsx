@@ -2,12 +2,12 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getUserInfo } from '@/api/getUserInfo';
-import { userProps } from '@/api/getUserInfo';
+import { UserWithStatistic } from '@/api/types';
 import { Button } from '@/ui/Button';
 
 export const UserPage = () => {
   const { id } = useParams<{ id: string }>();
-  const [data, setData] = useState<userProps | null>(null);
+  const [data, setData] = useState<UserWithStatistic | null>(null);
 
   useEffect(() => {
     getUserInfo({ id })
