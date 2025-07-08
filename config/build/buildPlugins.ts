@@ -13,8 +13,8 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
     const envVars = dotenv.config().parsed || {};
 
     const plugins: Configuration['plugins'] = [
-        new HtmlWebpackPlugin({ 
-            template: paths.html, 
+        new HtmlWebpackPlugin({
+            template: paths.html,
             favicon: path.resolve(paths.public, 'favicon.ico'),
         }),
         new ESLintPlugin({
@@ -25,7 +25,7 @@ export function buildPlugins({ mode, paths }: BuildOptions): Configuration['plug
         }),
         new webpack.DefinePlugin({
             'process.env': JSON.stringify(envVars),
-          }),
+        }),
     ]
     if (isDev) {
         plugins.push(new webpack.ProgressPlugin());

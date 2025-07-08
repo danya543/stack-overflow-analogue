@@ -15,6 +15,7 @@ export async function getQuestions({
         accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     },
   );
 

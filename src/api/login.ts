@@ -10,6 +10,7 @@ export async function loginUser(user: LoginUserPayload) {
     LoginUserPayload
   >(`${BASE_API_URL}/auth/login`, user, {
     headers: { accept: 'application/json', 'Content-Type': 'application/json' },
+    withCredentials: true,
   });
 
   return data;

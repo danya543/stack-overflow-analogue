@@ -1,5 +1,6 @@
 import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -7,8 +8,8 @@ import { SnippetProps } from '@/api/types';
 
 import * as styles from './Snippet.module.scss';
 
-export const Snippet = ({ data }: { data: SnippetProps }) => {
-  const [showComments, setShowComments] = useState(false);
+export const SnippetCard = ({ data }: { data: SnippetProps }) => {
+  const navigate = useNavigate();
 
   const likes = data.marks.filter((mark) => mark.type === 'like').length;
   const dislikes = data.marks.filter((mark) => mark.type === 'dislike').length;
@@ -36,26 +37,10 @@ export const Snippet = ({ data }: { data: SnippetProps }) => {
           <span>{dislikes}</span>
         </div>
 
-        <button className={styles.commentsButton} onClick={() => setShowComments(!showComments)}>
+        <button className={styles.commentsButton} onClick={() => navigate(`/post/${data.id}`)}>
           <MessageCircle size={18} /> Comments ({data.comments.length})
         </button>
       </div>
-
-      {showComments && (
-        <div className={styles.comments}>
-          {data.comments.length > 0 ? (
-            <ul className={styles.commentsList}>
-              {data.comments.map((comment) => (
-                <li key={comment.id} className={styles.comment}>
-                  {comment.content}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <p className={styles.noComments}>No comments yet.</p>
-          )}
-        </div>
-      )}
     </div>
   );
 };

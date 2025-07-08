@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { getAuthUser } from '@/api/auth';
 import { useLogin } from '@/hooks/useLogin';
 import { Button } from '@/ui/Button';
 import { Input } from '@/ui/Input';
@@ -16,11 +15,12 @@ export const LoginPage = () => {
   });
 
   const [progress, setProgress] = useState(0);
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getAuthUser()
-      .then(() => console.log('ok'))
-      .catch(() => console.log('err'));
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      navigate('/');
+    }
   }, []);
 
   useEffect(() => {
@@ -35,6 +35,7 @@ export const LoginPage = () => {
           return prev + 3.33;
         });
       }, 100);
+      console.log(document.cookie);
 
       return () => clearInterval(interval);
     }

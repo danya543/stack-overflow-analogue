@@ -27,6 +27,7 @@ export const useLogin = (initialValues: LoginData) => {
     e.preventDefault();
 
     setLoading(true);
+    localStorage.setItem('isAuthenticated', 'true');
 
     try {
       await loginUser({

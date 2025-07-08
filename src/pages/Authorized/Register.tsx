@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-import { getAuthUser } from '@/api/auth';
 import { useRegist } from '@/hooks/useRegist';
 import { Button } from '@/ui/Button';
 import { Input } from '@/ui/Input';
@@ -25,11 +24,12 @@ export const RegisterPage = () => {
     password: '',
     confirm_password: '',
   });
+  const navigate = useNavigate();
 
   useEffect(() => {
-    getAuthUser()
-      .then(() => console.log('ok'))
-      .catch(() => console.log('err'));
+    if (localStorage.getItem('isAuthenticated') === 'true') {
+      navigate('/');
+    }
   }, []);
 
   const [progress, setProgress] = useState(0);

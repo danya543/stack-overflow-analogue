@@ -1,10 +1,10 @@
 import axios from 'axios';
 
 import { BASE_API_URL } from './constants';
-import { LogoutUserResponse } from './types';
+import { GetSnippetResponse } from './types';
 
-export async function logoutUser() {
-  const { data } = await axios.post<LogoutUserResponse>(`${BASE_API_URL}/auth/logout`, {
+export async function getSnippet({ id }: { id: string }) {
+  const { data } = await axios.get<GetSnippetResponse>(`${BASE_API_URL}/snippets/${id}`, {
     headers: {
       accept: 'application/json',
       'Content-Type': 'application/json',

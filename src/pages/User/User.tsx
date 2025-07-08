@@ -3,6 +3,7 @@ import { useParams } from 'react-router-dom';
 
 import { getUserInfo } from '@/api/getUserInfo';
 import { UserWithStatistic } from '@/api/types';
+import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/ui/Button';
 
 export const UserPage = () => {
@@ -42,7 +43,7 @@ export const UserPage = () => {
           </ul>
         </div>
       ) : (
-        'Loading'
+        <Loader />
       )}
     </section>
   );

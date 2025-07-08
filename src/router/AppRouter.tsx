@@ -1,11 +1,14 @@
 import { Suspense } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
+import { Loader } from '@/components/Loader/Loader';
 import { AccountPage } from '@/pages/Account/Account';
 import { LoginPage } from '@/pages/Authorized/Login';
 import { RegisterPage } from '@/pages/Authorized/Register';
+import { CreateSnippetPage } from '@/pages/createSnippet/CreateSnippet';
 import { MainPage } from '@/pages/Main/Main';
 import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
+import { PostPage } from '@/pages/Post/Post';
 import { QuestionsPage } from '@/pages/Questions/Questions';
 import { SignLayout } from '@/pages/SignLayout/SignLayout';
 import { UserPage } from '@/pages/User/User';
@@ -18,23 +21,59 @@ export const router = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <MainPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <MainPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/post/:id',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <PostPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/create-snippet',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CreateSnippetPage />
+          </Suspense>
+        ),
       },
       {
         path: '/users',
-        element: <UsersPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <UsersPage />
+          </Suspense>
+        ),
       },
       {
         path: '/users/:id',
-        element: <UserPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <UserPage />
+          </Suspense>
+        ),
       },
       {
         path: '/questions',
-        element: <QuestionsPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <QuestionsPage />
+          </Suspense>
+        ),
       },
       {
         path: '/account',
-        element: <AccountPage />,
+        element: (
+          <Suspense fallback={<Loader />}>
+            <AccountPage />
+          </Suspense>
+        ),
       },
     ],
   },
@@ -45,7 +84,7 @@ export const router = createBrowserRouter([
       {
         path: 'login',
         element: (
-          <Suspense fallback={'Loading...'}>
+          <Suspense fallback={<Loader />}>
             <LoginPage />
           </Suspense>
         ),
@@ -53,7 +92,7 @@ export const router = createBrowserRouter([
       {
         path: 'register',
         element: (
-          <Suspense fallback={'Loading...'}>
+          <Suspense fallback={<Loader />}>
             <RegisterPage />
           </Suspense>
         ),

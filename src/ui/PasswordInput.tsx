@@ -26,6 +26,7 @@ export const PasswordInput = ({ classname, ...rest }: InputProps) => {
       <Button
         onClick={toggleVisibility}
         className={styles.iconButton}
+        type="button"
         icon={visible ? ICONS.View : ICONS.Hide}
       />
     </div>

@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 
 import { getQuestions } from '@/api/getQuestions';
 import { Question } from '@/api/types';
+import { Loader } from '@/components/Loader/Loader';
+import { QuestionCard } from '@/components/QuestionCard/QuestionCard';
 
 export const QuestionsPage = () => {
   const [data, setData] = useState<Question[] | null>(null);
@@ -12,6 +14,8 @@ export const QuestionsPage = () => {
   }, []);
 
   return (
-    <section>{data ? data.map((item) => <p key={item.id}>{item.title}</p>) : 'Loading'}</section>
+    <section>
+      {data ? data.map((item) => <QuestionCard key={item.id} data={item} />) : <Loader />}
+    </section>
   );
 };

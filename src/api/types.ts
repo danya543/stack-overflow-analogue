@@ -58,6 +58,9 @@ export interface SnippetProps {
   user: UserBase;
   comments: Comment[];
 }
+export interface GetSnippetResponse {
+  data: SnippetProps;
+}
 
 export interface GetSnippetsResponse {
   data: {
@@ -161,4 +164,36 @@ export interface RegisterUserResponse {
 export interface RegisterUserPayload {
   username: string;
   password: string;
+}
+
+export interface CreateCommentPayload {
+  content: string;
+  snippetId: string;
+}
+export interface UpdateCommentPayload {
+  content: string;
+}
+export interface CreateCommentResponse {
+  user: UserBase;
+  content: string;
+  id: number;
+  snippet: SnippetProps;
+}
+export interface UpdateCommentResponse {
+  data: { updatedCount: number };
+  message: string;
+}
+
+export interface CreateSnippetResponse {
+  data: {
+    code: string;
+    language: string;
+    user: UserBase;
+    id: string;
+  };
+}
+
+export interface CreateSnippetPayload {
+  code: string;
+  language: string;
 }

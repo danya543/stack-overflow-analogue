@@ -10,6 +10,7 @@ export async function registerUser(user: RegisterUserPayload) {
     RegisterUserPayload
   >(`${BASE_API_URL}/register`, user, {
     headers: { accept: 'application/json', 'Content-Type': 'application/json' },
+    withCredentials: true,
   });
 
   return data;

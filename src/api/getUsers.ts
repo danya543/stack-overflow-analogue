@@ -25,6 +25,7 @@ export async function getUsers({
       accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   });
 
   return data;

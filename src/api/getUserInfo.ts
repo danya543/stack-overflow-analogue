@@ -9,6 +9,7 @@ export async function getUserInfo({ id }: GetUserInfoPayload) {
       accept: 'application/json',
       'Content-Type': 'application/json',
     },
+    withCredentials: true,
   });
 
   return data;

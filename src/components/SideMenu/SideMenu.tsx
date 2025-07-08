@@ -15,7 +15,7 @@ export const SideMenu = () => {
         <Button onClick={handleOpenMenu}>Profile</Button>
         <Link to={'/'}>Home</Link>
         <Link to={'/account'}>My account</Link>
-        <Link to={'/about'}>Post snippet</Link>
+        <Link to={'/create-snippet'}>Post snippet</Link>
         <Link to={'/about'}>My snippets</Link>
         <Link to={'/questions'}>Questions</Link>
         <Link to={'/users'}>Users</Link>

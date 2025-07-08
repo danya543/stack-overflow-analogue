@@ -11,6 +11,7 @@ export async function getSnippets({ page = 1, limit = 15, sortBy }: GetSnippetsP
         accept: 'application/json',
         'Content-Type': 'application/json',
       },
+      withCredentials: true,
     },
   );
 
