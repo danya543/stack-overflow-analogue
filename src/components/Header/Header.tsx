@@ -9,14 +9,14 @@ import * as styles from './Header.module.scss';
 
 export const Header = () => {
   const [isLogged, setIsLogged] = useState(
-    localStorage.getItem('isAuthenticated') === 'true' ? true : false,
+    sessionStorage.getItem('isAuthenticated') === 'true' ? true : false,
   );
   const navigate = useNavigate();
 
   const handleLog = () => {
     if (isLogged) {
       logoutUser();
-      localStorage.setItem('isAuthenticated', 'false');
+      sessionStorage.setItem('isAuthenticated', 'false');
       setIsLogged(false);
     } else {
       navigate('/sign/login');

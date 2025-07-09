@@ -139,9 +139,11 @@ export interface GetUsersPayload {
 
 // authentification
 export interface LoginUserResponse {
-  username: string;
-  email: string;
-  id: number;
+  data: {
+    username: string;
+    email: string;
+    id: number;
+  };
 }
 
 export interface LoginUserPayload {
@@ -196,4 +198,8 @@ export interface CreateSnippetResponse {
 export interface CreateSnippetPayload {
   code: string;
   language: string;
+}
+
+export interface MarkPayload {
+  mark: 'like' | 'dislike' | 'none';
 }

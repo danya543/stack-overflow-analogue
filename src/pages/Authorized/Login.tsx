@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Alert } from '@/components/Alert/Alert';
 import { useLogin } from '@/hooks/useLogin';
 import { Button } from '@/ui/Button';
 import { Input } from '@/ui/Input';
@@ -14,45 +15,19 @@ export const LoginPage = () => {
     password: '',
   });
 
-  const [progress, setProgress] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('isAuthenticated') === 'true') {
+    if (sessionStorage.getItem('isAuthenticated') === 'true') {
       navigate('/');
     }
   }, []);
-
-  useEffect(() => {
-    if (success) {
-      setProgress(0);
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + 3.33;
-        });
-      }, 100);
-      console.log(document.cookie);
-
-      return () => clearInterval(interval);
-    }
-  }, [success]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h1>Login</h1>
 
-      {success && (
-        <>
-          <p className={styles.successMessage}>Sign in success!</p>
-          <div className={styles.progressBarWrapper}>
-            <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
-          </div>
-        </>
-      )}
+      {success && <Alert type="success" message="Sign in success" duration={5000} />}
 
       <Input
         name="username"

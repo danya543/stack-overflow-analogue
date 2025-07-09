@@ -2,21 +2,46 @@ import { useEffect, useState } from 'react';
 
 import { getSnippets } from '@/api/getSnippets';
 import { SnippetProps } from '@/api/types';
+import { Alert } from '@/components/Alert/Alert';
+import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
-import { SnippetCard } from '@/components/Snippet/Snippet';
+import { SnippetCard } from '@/components/Snippet/SnippetCard';
 
 export const MainPage = () => {
   const [data, setData] = useState<SnippetProps[] | null>(null);
+  const [errorMsg, setErrorMsg] = useState<string | null>('');
+  const [reload, setReload] = useState(0);
+  const userId = JSON.parse(sessionStorage.getItem('user_id'));
+
   useEffect(() => {
     getSnippets({})
-      .then((data) => setData(data.data.data))
-      .catch((err) => console.error(err));
-  }, []);
+      .then((data) => {
+        setErrorMsg('');
+        setData(data.data.data);
+      })
+      .catch((err) => {
+        setData(null);
+        setErrorMsg(err.message);
+        console.error(err);
+      });
+  }, [reload]);
 
   return (
     <div>
       <h1>Welcome to codelang!</h1>
-      {data ? data.map((item) => <SnippetCard data={item} key={item.id} />) : <Loader />}
+      {errorMsg ? (
+        <Error
+          message={errorMsg}
+          retry={() => {
+            setReload(reload + 1);
+            setErrorMsg('');
+          }}
+        />
+      ) : data ? (
+        data.map((item) => <SnippetCard data={item} userId={userId} key={item.id} />)
+      ) : (
+        <Loader />
+      )}
     </div>
   );
 };

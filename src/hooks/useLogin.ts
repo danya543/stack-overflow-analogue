@@ -27,22 +27,26 @@ export const useLogin = (initialValues: LoginData) => {
     e.preventDefault();
 
     setLoading(true);
-    localStorage.setItem('isAuthenticated', 'true');
 
-    try {
-      await loginUser({
-        username: data.username,
-        password: data.password,
+    loginUser({
+      username: data.username,
+      password: data.password,
+    })
+      .then((data) => {
+        console.log(data.data);
+        sessionStorage.setItem('isAuthenticated', 'true');
+        sessionStorage.setItem('user_id', JSON.stringify(data.data.id));
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/');
+        }, 3000);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/');
-      }, 3000);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const isFormValid = data.username !== '' && data.password !== '';

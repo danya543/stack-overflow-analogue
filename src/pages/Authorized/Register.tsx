@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
+import { Alert } from '@/components/Alert/Alert';
 import { useRegist } from '@/hooks/useRegist';
 import { Button } from '@/ui/Button';
 import { Input } from '@/ui/Input';
@@ -27,42 +28,16 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (localStorage.getItem('isAuthenticated') === 'true') {
+    if (sessionStorage.getItem('isAuthenticated') === 'true') {
       navigate('/');
     }
   }, []);
-
-  const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    if (success) {
-      setProgress(0);
-      const interval = setInterval(() => {
-        setProgress((prev) => {
-          if (prev >= 100) {
-            clearInterval(interval);
-            return 100;
-          }
-          return prev + 3.33;
-        });
-      }, 100);
-
-      return () => clearInterval(interval);
-    }
-  }, [success]);
 
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <h1>Register</h1>
 
-      {success && (
-        <>
-          <p className={styles.successMessage}>Sign up success! Redirect to login...</p>
-          <div className={styles.progressBarWrapper}>
-            <div className={styles.progressBar} style={{ width: `${progress}%` }}></div>
-          </div>
-        </>
-      )}
+      {success && <Alert type="success" message="Sign up success" duration={5000} />}
 
       <Input
         name="username"

@@ -6,7 +6,7 @@ import { createComment } from '@/api/createComment';
 import { getSnippet } from '@/api/getSnippet';
 import { SnippetProps } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
-import { SnippetCard } from '@/components/Snippet/Snippet';
+import { SnippetCard } from '@/components/Snippet/SnippetCard';
 import { Input } from '@/ui/Input';
 
 import * as styles from './Post.module.scss';
@@ -15,6 +15,7 @@ export const PostPage = () => {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<SnippetProps | null>(null);
   const [commentMsg, setCommentMsg] = useState('');
+  const userId = sessionStorage.getItem('user_id');
 
   useEffect(() => {
     getSnippet({ id })
@@ -39,7 +40,7 @@ export const PostPage = () => {
     <section>
       {data ? (
         <div>
-          <SnippetCard data={data} key={data.id} />
+          <SnippetCard data={data} userId={userId} key={data.id} />
           <div className={styles.addComment}>
             <Input placeholder={'Add you comment'} value={commentMsg} onChange={handleInput} />
             <button type="submit" onClick={handleSubmit}>
