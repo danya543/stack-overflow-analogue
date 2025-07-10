@@ -33,7 +33,6 @@ export const useLogin = (initialValues: LoginData) => {
       password: data.password,
     })
       .then((data) => {
-        console.log(data.data);
         sessionStorage.setItem('isAuthenticated', 'true');
         sessionStorage.setItem('user_id', JSON.stringify(data.data.id));
         setSuccess(true);

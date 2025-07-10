@@ -2,10 +2,10 @@ import { useEffect, useState } from 'react';
 
 import { getSnippets } from '@/api/getSnippets';
 import { SnippetProps } from '@/api/types';
-import { Alert } from '@/components/Alert/Alert';
 import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
 import { SnippetCard } from '@/components/Snippet/SnippetCard';
+import { Alert } from '@/ui/Alert/Alert';
 
 export const MainPage = () => {
   const [data, setData] = useState<SnippetProps[] | null>(null);
@@ -38,7 +38,7 @@ export const MainPage = () => {
           }}
         />
       ) : data ? (
-        data.map((item) => <SnippetCard data={item} userId={userId} key={item.id} />)
+        data.map((item) => <SnippetCard data={item} userId={userId} key={item.id} type={'main'} />)
       ) : (
         <Loader />
       )}

@@ -1,5 +1,6 @@
 import { CheckCircle, Info, XCircle } from 'lucide-react';
 import { useEffect, useState } from 'react';
+import ReactDOM from 'react-dom';
 
 import * as styles from './Alert.module.scss';
 
@@ -33,11 +34,15 @@ export const Alert = ({ type = 'info', message, duration = 3000 }: AlertProps) =
 
   if (!visible) return null;
 
-  return (
-    <div className={`${styles.alert} ${styles[type]}`}>
-      {getIcon()}
-      <span>{message}</span>
-      <div className={styles.progress} style={{ animationDuration: `${duration}ms` }} />
+  const alertContent = (
+    <div className={`${styles.alertWrapper}`}>
+      <div className={`${styles.alert} ${styles[type]}`}>
+        {getIcon()}
+        <span>{message}</span>
+        <div className={styles.progress} style={{ animationDuration: `${duration}ms` }} />
+      </div>
     </div>
   );
+
+  return ReactDOM.createPortal(alertContent, document.body);
 };

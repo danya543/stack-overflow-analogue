@@ -48,6 +48,7 @@ export interface Mark {
 export interface Comment {
   id: string;
   content: string;
+  user: UserBase;
 }
 
 export interface SnippetProps {
@@ -176,10 +177,12 @@ export interface UpdateCommentPayload {
   content: string;
 }
 export interface CreateCommentResponse {
-  user: UserBase;
-  content: string;
-  id: number;
-  snippet: SnippetProps;
+  data: {
+    user: UserBase;
+    content: string;
+    id: string;
+    snippet: SnippetProps;
+  };
 }
 export interface UpdateCommentResponse {
   data: { updatedCount: number };

@@ -7,6 +7,7 @@ import { getSnippet } from '@/api/getSnippet';
 import { SnippetProps } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
 import { SnippetCard } from '@/components/Snippet/SnippetCard';
+import { socket } from '@/socket';
 import { Input } from '@/ui/Input';
 
 import * as styles from './Post.module.scss';
@@ -23,16 +24,48 @@ export const PostPage = () => {
       .catch((err) => console.error(err));
   }, []);
 
+  useEffect(() => {
+    socket.emit('joinSnippetRoom', id);
+
+    socket.on('newComment', (comment) => {
+      setData((prev) => {
+        if (!prev) return prev;
+
+        if (prev.comments.some((c) => c.id === comment.id)) return prev;
+
+        return { ...prev, comments: [...prev.comments, comment] };
+      });
+    });
+
+    return () => {
+      socket.emit('leaveSnippetRoom', id);
+      socket.off('newComment');
+    };
+  }, []);
+
   const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    setCommentMsg(value);
+    setCommentMsg(e.target.value);
   };
 
-  const handleSubmit = () => {
-    if (commentMsg.length > 3) {
-      createComment({ content: commentMsg, snippetId: id });
-    } else {
-      console.warn('comment must be more than 3 chars');
+  const handleSubmit = async () => {
+    const trimmed = commentMsg.trim();
+    if (trimmed.length <= 3) {
+      console.warn('Comment must be more than 3 characters');
+      return;
+    }
+
+    try {
+      const response = await createComment({ content: trimmed, snippetId: id });
+      const newComment = response.data;
+
+      setData((prev) => (prev ? { ...prev, comments: [...prev.comments, newComment] } : prev));
+
+      socket.emit('commentAdded', { comment: newComment, snippetId: id });
+      socket.emit('newComment', newComment);
+
+      setCommentMsg('');
+    } catch (err) {
+      console.error('Failed to submit comment:', err);
     }
   };
 
@@ -40,7 +73,7 @@ export const PostPage = () => {
     <section>
       {data ? (
         <div>
-          <SnippetCard data={data} userId={userId} key={data.id} />
+          <SnippetCard data={data} userId={userId} key={data.id} type={'post'} />
           <div className={styles.addComment}>
             <Input placeholder={'Add you comment'} value={commentMsg} onChange={handleInput} />
             <button type="submit" onClick={handleSubmit}>

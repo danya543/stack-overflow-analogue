@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
-import { Alert } from '@/components/Alert/Alert';
 import { useRegist } from '@/hooks/useRegist';
+import { Alert } from '@/ui/Alert/Alert';
 import { Button } from '@/ui/Button';
 import { Input } from '@/ui/Input';
 import { PasswordInput } from '@/ui/PasswordInput';

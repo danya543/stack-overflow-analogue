@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { logoutUser } from '@/api/logout';
+import { Alert } from '@/ui/Alert/Alert';
 import { Button } from '@/ui/Button';
 
 import { Logo } from '../Logo/Logo';
@@ -11,6 +12,7 @@ export const Header = () => {
   const [isLogged, setIsLogged] = useState(
     sessionStorage.getItem('isAuthenticated') === 'true' ? true : false,
   );
+  const [showAlert, setShowAlert] = useState(false);
   const navigate = useNavigate();
 
   const handleLog = () => {
@@ -18,6 +20,7 @@ export const Header = () => {
       logoutUser();
       sessionStorage.setItem('isAuthenticated', 'false');
       setIsLogged(false);
+      setShowAlert(true);
     } else {
       navigate('/sign/login');
     }
@@ -25,6 +28,7 @@ export const Header = () => {
 
   return (
     <header className={styles.header}>
+      {showAlert && <Alert message={'Logged out success'} type={'success'} />}
       <Logo onClick={() => navigate('/')} />
       <Button onClick={handleLog} text={isLogged ? 'Logout' : 'Login'} />
     </header>
