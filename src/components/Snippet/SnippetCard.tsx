@@ -52,7 +52,7 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
   const handleMark = async (id: number, type: 'like' | 'dislike') => {
     if (!isLogged) {
       setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3000);
+      setTimeout(() => setShowAlert(false), 3500);
       return;
     }
 
@@ -86,9 +86,21 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
     socket.emit('markChanged', { snippetId: id, mark: newMark });
   };
 
+  const handleOpenComments = () => {
+    if (isLogged) {
+      if (type === 'main') navigate(`/post/${data.id}`);
+      else setShowComments((prev) => !prev);
+    } else {
+      setShowAlert(true);
+      setTimeout(() => setShowAlert(false), 3500);
+    }
+  };
+
   return (
     <div className={styles.snippet}>
-      {showAlert && <Alert type="error" message="Please log in to vote." duration={3000} />}
+      {showAlert && (
+        <Alert type="error" message="Please log in to vote and see comments" duration={3000} />
+      )}
 
       <h3 className={styles.language}>{data.language} Snippet</h3>
 
@@ -123,12 +135,7 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
           </div>
         </div>
 
-        <button
-          className={styles.commentsButton}
-          onClick={() =>
-            type === 'main' ? navigate(`/post/${data.id}`) : setShowComments((prev) => !prev)
-          }
-        >
+        <button className={styles.commentsButton} onClick={handleOpenComments}>
           <MessageCircle size={18} /> Comments ({data.comments.length})
         </button>
       </div>

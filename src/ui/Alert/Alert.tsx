@@ -6,7 +6,7 @@ import * as styles from './Alert.module.scss';
 
 type AlertType = 'info' | 'success' | 'error';
 
-interface AlertProps {
+export interface AlertProps {
   type?: AlertType;
   message: string;
   duration?: number;

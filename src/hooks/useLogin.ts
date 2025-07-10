@@ -38,7 +38,7 @@ export const useLogin = (initialValues: LoginData) => {
         setSuccess(true);
         setTimeout(() => {
           navigate('/');
-        }, 3000);
+        }, 3500);
       })
       .catch((err) => {
         console.error(err);

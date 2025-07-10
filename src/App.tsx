@@ -1,13 +1,9 @@
 import { ReactNode } from 'react';
 
-interface AppProps {
-  children: ReactNode;
-}
-
-export const App = ({ children }: AppProps) => {
+export const App = ({ children }: { children: ReactNode }) => {
   return (
     <>
-      {/* Тут могут быть общие контексты, например ThemeProvider, AuthProvider и т.д. */}
+      {/*  ThemeProvider, AuthProvider... */}
       {children}
     </>
   );

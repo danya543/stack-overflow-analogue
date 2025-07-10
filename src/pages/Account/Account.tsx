@@ -2,22 +2,13 @@ import { useEffect, useState } from 'react';
 
 import { getUserInfo } from '@/api/getUserInfo';
 import { UserWithStatistic } from '@/api/types';
+import { ChangeName } from '@/components/ChangeName/ChangeName';
+import { ChangePassword } from '@/components/ChangePassword/ChangePassword';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/ui/Button';
-import { Input } from '@/ui/Input';
-import { PasswordInput } from '@/ui/PasswordInput';
+import { statsMap } from '@/ui/constants';
 
 import * as styles from './Account.module.scss';
-const statsMap = [
-  { key: 'snippetsCount', label: 'Snippets' },
-  { key: 'rating', label: 'Rating' },
-  { key: 'commentsCount', label: 'Comments' },
-  { key: 'likesCount', label: 'Likes' },
-  { key: 'dislikesCount', label: 'Dislikes' },
-  { key: 'questionsCount', label: 'Questions' },
-  { key: 'correctAnswersCount', label: 'Correct Answers' },
-  { key: 'regularAnswersCount', label: 'Answers' },
-];
 
 export const AccountPage = () => {
   const [data, setData] = useState<UserWithStatistic | null>(null);
@@ -50,22 +41,14 @@ export const AccountPage = () => {
                 <div key={key} className={styles.statItem}>
                   <span className={styles.label}>{label}:</span>
                   <span className={styles.value}>
-                    {data.statistic[key as keyof typeof data.statistic]}
+                    {data.statistic[key as keyof typeof data.statistic].toFixed(0)}
                   </span>
                 </div>
               ))}
             </div>
           </div>
-          <div className={styles.accountBlock}>
-            <Input placeholder={'New username'} />
-            <Button text="Save" />
-          </div>
-          <div className={styles.accountBlock}>
-            <PasswordInput placeholder="Old password" />
-            <PasswordInput placeholder="New password" />
-            <PasswordInput placeholder="Confirm password" />
-            <Button text="Change password" />
-          </div>
+          <ChangeName currentName={data.username} />
+          <ChangePassword />
         </>
       ) : (
         <Loader />

@@ -72,7 +72,7 @@
     background: rgba(0, 119, 182, 0.3);
     width: 100%;
 
-    &:hover {
+    &:hover:not(:disabled) {
       background: rgba(0, 119, 182, 0.5);
     }
   }

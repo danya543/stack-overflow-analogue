@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { registerUser } from '@/api/register';
+import { passwordRegex } from '@/ui/constants';
 
 interface RegistData {
   username: string;
@@ -41,7 +42,6 @@ export const useRegist = (initialValues: RegistData) => {
     }
 
     if (name === 'password') {
-      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
       if (!passwordRegex.test(value)) {
         return 'Password must contain at least one capital letter, one letter, one special symbol, one number';
       }
@@ -126,20 +126,22 @@ export const useRegist = (initialValues: RegistData) => {
 
     setLoading(true);
 
-    try {
-      await registerUser({
-        username: data.username,
-        password: data.password,
+    registerUser({
+      username: data.username,
+      password: data.password,
+    })
+      .then(() => {
+        setSuccess(true);
+        setTimeout(() => {
+          navigate('/sign/login');
+        }, 3500);
+      })
+      .catch((err) => {
+        console.error(err);
+      })
+      .finally(() => {
+        setLoading(false);
       });
-      setSuccess(true);
-      setTimeout(() => {
-        navigate('/sign/login');
-      }, 3000);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
   };
 
   const isFormValid =

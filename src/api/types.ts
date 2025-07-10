@@ -206,3 +206,20 @@ export interface CreateSnippetPayload {
 export interface MarkPayload {
   mark: 'like' | 'dislike' | 'none';
 }
+
+export interface ChangePasswordPayload {
+  oldPassword: string;
+  newPassword: string;
+}
+
+export interface ChangePasswordResponse {
+  updatedCount: number;
+}
+
+export interface ChangeNamePayload {
+  username: string;
+}
+
+export interface ChangeNameResponse {
+  updatedCount: number;
+}
