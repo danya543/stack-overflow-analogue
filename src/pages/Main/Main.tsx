@@ -5,7 +5,6 @@ import { SnippetProps } from '@/api/types';
 import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
 import { SnippetCard } from '@/components/Snippet/SnippetCard';
-import { Alert } from '@/ui/Alert/Alert';
 
 export const MainPage = () => {
   const [data, setData] = useState<SnippetProps[] | null>(null);
