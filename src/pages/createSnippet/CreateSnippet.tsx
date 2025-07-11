@@ -1,65 +1,63 @@
-import { useState } from 'react';
+import { useEffect, useRef } from 'react';
 
-import { createSnippet } from '@/api/createSnippet';
-import { CreateSnippetPayload } from '@/api/types';
-import { Input } from '@/ui/Input';
+import { useCreateSnippet } from '@/hooks/useCreateSnippet';
+import { Alert } from '@/ui/Alert/Alert';
+
+import * as styles from './CreateSnippet.module.scss';
 
 export const CreateSnippetPage = () => {
-  const [snippetContent, setSnippetContent] = useState<CreateSnippetPayload>({
-    code: '',
-    language: '',
-  });
+  const {
+    snippetContent,
+    languages,
+    alert,
+    isFormValid,
+    handleCodeChange,
+    handleLanguageChange,
+    handleSubmit,
+  } = useCreateSnippet();
 
-  const [error, setError] = useState<string | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  const supportedLanguages = ['javascript'];
-
-  const handleSubmit = () => {
-    setError(null);
-
-    if (!snippetContent.language) {
-      setError('Choose language');
-      return;
+  useEffect(() => {
+    if (textareaRef.current) {
+      textareaRef.current.style.height = 'auto';
+      textareaRef.current.style.height = textareaRef.current.scrollHeight + 'px';
     }
-
-    if (!supportedLanguages.includes(snippetContent.language)) {
-      setError('only JavaScript');
-      return;
-    }
-
-    createSnippet(snippetContent)
-      .then(() => {
-        console.log('ok');
-        setSnippetContent({ code: '', language: '' });
-      })
-      .catch((err) => {
-        console.error(err);
-        setError('Creating snippet failed');
-      });
-  };
-
-  const handleCodeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSnippetContent((prev) => ({ ...prev, code: e.target.value }));
-  };
-
-  const handleLanguageChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setSnippetContent((prev) => ({ ...prev, language: e.target.value }));
-  };
+  }, [snippetContent.code]);
 
   return (
-    <div className={''}>
+    <div className={styles.wrapper}>
       <h1>Create new snippet</h1>
-      <Input placeholder="Enter code" value={snippetContent.code} onChange={handleCodeChange} />
 
-      <select value={snippetContent.language} onChange={handleLanguageChange}>
-        <option value="javascript2">JavaScript2</option>
-        <option value="javascript1">JavaScript1</option>
-        <option value="javascript">JavaScript</option>
-      </select>
+      <form onSubmit={handleSubmit}>
+        <select
+          className={styles.select}
+          value={snippetContent.language}
+          onChange={(e) => handleLanguageChange(e.target.value)}
+        >
+          <option value="">Choose language</option>
+          {languages.map((lang) => (
+            <option key={lang} value={lang}>
+              {lang}
+            </option>
+          ))}
+        </select>
 
-      <button onClick={handleSubmit}>Submit</button>
+        <textarea
+          ref={textareaRef}
+          placeholder="Enter code"
+          value={snippetContent.code}
+          onChange={(e) => handleCodeChange(e.target.value)}
+          className={styles.textarea}
+          rows={4}
+        />
 
-      {error && <p>{error}</p>}
+        <button className={styles.submitBtn} type="submit" disabled={!isFormValid}>
+          Submit
+        </button>
+      </form>
+
+      {alert && <Alert type={alert.type} message={alert.message} />}
     </div>
   );
 };

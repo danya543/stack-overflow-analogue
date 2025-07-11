@@ -1,3 +1,4 @@
+import { FileText, HelpCircle, Home, PlusCircle, User, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 import { Button } from '@/ui/Button';
@@ -13,12 +14,48 @@ export const SideMenu = () => {
     <div className={styles.container}>
       <ul className={styles.menu}>
         <Button onClick={handleOpenMenu}>Profile</Button>
-        <Link to={'/'}>Home</Link>
-        <Link to={'/account'}>My account</Link>
-        <Link to={'/create-snippet'}>Post snippet</Link>
-        <Link to={'/about'}>My snippets</Link>
-        <Link to={'/questions'}>Questions</Link>
-        <Link to={'/users'}>Users</Link>
+
+        <li>
+          <Link to="/" className={styles.link}>
+            <Home className={styles.icon} />
+            Home
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/account" className={styles.link}>
+            <User className={styles.icon} />
+            My account
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/create-snippet" className={styles.link}>
+            <PlusCircle className={styles.icon} />
+            Post snippet
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/about" className={styles.link}>
+            <FileText className={styles.icon} />
+            My snippets
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/questions" className={styles.link}>
+            <HelpCircle className={styles.icon} />
+            Questions
+          </Link>
+        </li>
+
+        <li>
+          <Link to="/users" className={styles.link}>
+            <Users className={styles.icon} />
+            Users
+          </Link>
+        </li>
       </ul>
     </div>
   );

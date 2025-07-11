@@ -189,6 +189,9 @@ export interface UpdateCommentResponse {
   message: string;
 }
 
+export interface GetSnippetLanguagesResponse {
+  data: string[];
+}
 export interface CreateSnippetResponse {
   data: {
     code: string;
