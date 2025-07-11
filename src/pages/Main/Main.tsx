@@ -6,7 +6,7 @@ import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
 import { Pagination } from '@/components/Pagination/Pagination';
 import { SnippetCard } from '@/components/Snippet/SnippetCard';
-import { getUser } from '@/ui/constants';
+import { getUser, SESSION_KEYS } from '@/ui/constants';
 
 export const MainPage = () => {
   const [data, setData] = useState<SnippetProps[] | null>(null);
@@ -23,6 +23,10 @@ export const MainPage = () => {
     try {
       const response = await getSnippets({ page });
       setData(response.data.data);
+      sessionStorage.setItem(
+        SESSION_KEYS.TotalItems,
+        JSON.stringify(response.data.meta.totalItems),
+      );
       setMeta(response.data.meta);
       setErrorMsg('');
     } catch (err) {

@@ -6,6 +6,8 @@ import { UserWithStatistic } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
 import { Button } from '@/ui/Button';
 
+import * as styles from './User.module.scss';
+
 export const UserPage = () => {
   const { id } = useParams<{ id: string }>();
   const [data, setData] = useState<UserWithStatistic | null>(null);
@@ -28,7 +30,7 @@ export const UserPage = () => {
   };
 
   return (
-    <section>
+    <section className={styles.container}>
       {data ? (
         <div>
           <Button onClick={() => window.history.back()} text="back" />
@@ -37,7 +39,8 @@ export const UserPage = () => {
           <ul>
             {Object.entries(data.statistic).map(([key, value]) => (
               <li key={key}>
-                {labels[key] || key}: {value}
+                {labels[key] || key}:{' '}
+                {key === 'rating' && typeof value === 'number' ? value.toFixed(2) : value}
               </li>
             ))}
           </ul>

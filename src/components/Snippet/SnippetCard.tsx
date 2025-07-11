@@ -1,4 +1,4 @@
-import { MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Edit, MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -15,7 +15,7 @@ import * as styles from './SnippetCard.module.scss';
 interface SnippetCardProps {
   data: SnippetProps;
   userId: string;
-  type: 'main' | 'post';
+  type: 'main' | 'post' | 'mine';
 }
 
 export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
@@ -104,6 +104,10 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
       )}
 
       <h3 className={styles.language}>{data.language} Snippet</h3>
+      <p className={styles.author}>snippet by: {data.user.username}</p>
+      <button onClick={() => navigate(`/snippets/edit/${data.id}`)} className={styles.editBtn}>
+        <Edit />
+      </button>
 
       <div className={styles.code}>
         <SyntaxHighlighter
@@ -141,15 +145,19 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
         </button>
       </div>
 
-      {type === 'post' && showComments && (
+      {(type === 'mine' || type === 'post') && showComments && (
         <div className={styles.comments}>
-          {data.comments.map((comment) => (
-            <div key={comment.id} className={styles.comment}>
-              <p>
-                <strong>{comment.user.username}</strong>: {comment.content}
-              </p>
-            </div>
-          ))}
+          {data.comments.length > 0 ? (
+            data.comments.map((comment) => (
+              <div key={comment.id} className={styles.comment}>
+                <p>
+                  <strong>{comment.user.username}</strong>: {comment.content}
+                </p>
+              </div>
+            ))
+          ) : (
+            <Alert type="info" message="No comments for this snippet yet(" />
+          )}
         </div>
       )}
     </div>

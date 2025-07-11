@@ -1,22 +1,25 @@
 import { useEffect, useRef } from 'react';
+import { useParams } from 'react-router-dom';
 
 import { useSnippetEditor } from '@/hooks/useSnippetEditor';
 import { Alert } from '@/ui/Alert/Alert';
 
-import * as styles from './CreateSnippet.module.scss';
+import * as styles from './EditSnippet.module.scss';
 
-export const CreateSnippetPage = () => {
+export const EditSnippetPage = () => {
+  const { id } = useParams<{ id: string }>();
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
+
   const {
     snippetContent,
     languages,
     alert,
     isFormValid,
+    isSubmitting,
     handleCodeChange,
     handleLanguageChange,
     handleSubmit,
-  } = useSnippetEditor('create');
-
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
+  } = useSnippetEditor('edit', id);
 
   useEffect(() => {
     if (textareaRef.current) {
@@ -27,7 +30,7 @@ export const CreateSnippetPage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <h1>Create new snippet</h1>
+      <h1>Edit snippet</h1>
 
       <form onSubmit={handleSubmit}>
         <select
@@ -45,15 +48,15 @@ export const CreateSnippetPage = () => {
 
         <textarea
           ref={textareaRef}
-          placeholder="Enter code"
+          placeholder="Edit code"
           value={snippetContent.code}
           onChange={(e) => handleCodeChange(e.target.value)}
           className={styles.textarea}
           rows={4}
         />
 
-        <button className={styles.submitBtn} type="submit" disabled={!isFormValid}>
-          Submit
+        <button className={styles.submitBtn} type="submit" disabled={!isFormValid || isSubmitting}>
+          {isSubmitting ? 'Saving...' : 'Update'}
         </button>
       </form>
 

@@ -1,0 +1,27 @@
+.editor {
+    display: flex;
+    gap: 8px;
+    margin-top: 12px;
+
+    input {
+        flex: 1;
+    }
+
+    button {
+        background: #007bff;
+        color: white;
+        border: none;
+        padding: 8px;
+        border-radius: 6px;
+        cursor: pointer;
+
+        &:hover {
+            background: #0056b3;
+        }
+    }
+
+    .cancel {
+        background: #ccc;
+        color: #333;
+    }
+}

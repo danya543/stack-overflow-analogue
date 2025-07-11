@@ -15,6 +15,7 @@ export const ICONS = {
 export const SESSION_KEYS = {
   Auth: 'isAuthenticated',
   Id: 'user_id',
+  TotalItems: 'totalItems',
 };
 
 export const statsMap = [
