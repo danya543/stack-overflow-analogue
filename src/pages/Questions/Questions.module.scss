@@ -1,0 +1,15 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.noQuestions {
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+    margin-top: 40px;
+}
