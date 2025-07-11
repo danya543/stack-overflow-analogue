@@ -4,55 +4,49 @@ import { getUserInfo } from '@/api/getUserInfo';
 import { UserWithStatistic } from '@/api/types';
 import { ChangeName } from '@/components/ChangeName/ChangeName';
 import { ChangePassword } from '@/components/ChangePassword/ChangePassword';
+import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
-import { Button } from '@/ui/Button';
-import { statsMap } from '@/ui/constants';
+import { UserInfo } from '@/components/UserInfo/UserInfo';
+import { getUser } from '@/ui/constants';
 
 import * as styles from './Account.module.scss';
 
 export const AccountPage = () => {
   const [data, setData] = useState<UserWithStatistic | null>(null);
-  const id = JSON.parse(sessionStorage.getItem('user_id'));
+  const id = getUser('id');
+  const [errorMsg, setErrorMsg] = useState<string>('');
+
   useEffect(() => {
     getUserInfo({ id })
       .then((data) => {
         setData(data.data);
       })
       .catch((err) => {
+        setErrorMsg(err.message);
         console.error(err);
       });
   }, []);
 
   return (
-    <div>
-      {data ? (
+    <section className={styles.container}>
+      {errorMsg ? (
+        <Error
+          message={errorMsg}
+          retry={() => {
+            setErrorMsg('');
+          }}
+        />
+      ) : data ? (
         <>
-          <h1>Welcome {data.username}!</h1>
-          <div className={styles.info}>
-            <div>
-              <h3>{data.username}</h3>
-              <p>{data.id}</p>
-              <p>{data.role}</p>
-              <Button text="out" />
-              <Button text="del" />
-            </div>
-            <div className={styles.statsGrid}>
-              {statsMap.map(({ key, label }) => (
-                <div key={key} className={styles.statItem}>
-                  <span className={styles.label}>{label}:</span>
-                  <span className={styles.value}>
-                    {data.statistic[key as keyof typeof data.statistic].toFixed(0)}
-                  </span>
-                </div>
-              ))}
-            </div>
+          <UserInfo data={data} />
+          <div className={styles.manage_account}>
+            <ChangeName currentName={data.username} />
+            <ChangePassword />
           </div>
-          <ChangeName currentName={data.username} />
-          <ChangePassword />
         </>
       ) : (
         <Loader />
       )}
-    </div>
+    </section>
   );
 };

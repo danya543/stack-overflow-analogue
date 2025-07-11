@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { loginUser } from '@/api/login';
+import { SESSION_KEYS } from '@/ui/constants';
 
 interface LoginData {
   username: string;
@@ -33,8 +34,8 @@ export const useLogin = (initialValues: LoginData) => {
       password: data.password,
     })
       .then((data) => {
-        sessionStorage.setItem('isAuthenticated', 'true');
-        sessionStorage.setItem('user_id', JSON.stringify(data.data.id));
+        sessionStorage.setItem(SESSION_KEYS.Auth, 'true');
+        sessionStorage.setItem(SESSION_KEYS.Id, JSON.stringify(data.data.id));
         setSuccess(true);
         setTimeout(() => {
           navigate('/');

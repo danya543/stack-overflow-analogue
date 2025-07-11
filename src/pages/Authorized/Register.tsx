@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useRegist } from '@/hooks/useRegist';
 import { Alert } from '@/ui/Alert/Alert';
 import { Button } from '@/ui/Button';
+import { getUser } from '@/ui/constants';
 import { Input } from '@/ui/Input';
 import { PasswordInput } from '@/ui/PasswordInput';
 
@@ -28,7 +29,7 @@ export const RegisterPage = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (sessionStorage.getItem('isAuthenticated') === 'true') {
+    if (getUser('auth')) {
       navigate('/');
     }
   }, []);

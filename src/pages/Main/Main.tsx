@@ -5,12 +5,13 @@ import { SnippetProps } from '@/api/types';
 import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
 import { SnippetCard } from '@/components/Snippet/SnippetCard';
+import { getUser } from '@/ui/constants';
 
 export const MainPage = () => {
   const [data, setData] = useState<SnippetProps[] | null>(null);
-  const [errorMsg, setErrorMsg] = useState<string | null>('');
+  const [errorMsg, setErrorMsg] = useState<string>('');
   const [reload, setReload] = useState(0);
-  const userId = JSON.parse(sessionStorage.getItem('user_id'));
+  const userId = getUser('id');
 
   useEffect(() => {
     getSnippets({})

@@ -8,6 +8,7 @@ import { addMark } from '@/api/mark';
 import { SnippetProps } from '@/api/types';
 import { socket } from '@/socket';
 import { Alert } from '@/ui/Alert/Alert';
+import { getUser } from '@/ui/constants';
 
 import * as styles from './SnippetCard.module.scss';
 
@@ -18,7 +19,7 @@ interface SnippetCardProps {
 }
 
 export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
-  const isLogged = sessionStorage.getItem('isAuthenticated') === 'true';
+  const isLogged = getUser('auth');
   const navigate = useNavigate();
 
   const likes = data.marks.filter((mark) => mark.type === 'like');
