@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom';
 import { useSnippetEditor } from '@/hooks/useSnippetEditor';
 import { Alert } from '@/ui/Alert/Alert';
 
-import * as styles from './EditSnippet.module.scss';
+import * as styles from './CreateSnippet.module.scss';
 
 export const EditSnippetPage = () => {
   const { id } = useParams<{ id: string }>();

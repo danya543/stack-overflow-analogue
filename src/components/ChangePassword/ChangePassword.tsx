@@ -3,7 +3,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { changePassword } from '@/api/changePassword';
 import { Alert, AlertProps } from '@/ui/Alert/Alert';
 import { Button } from '@/ui/Button';
-import { passwordRegex } from '@/ui/constants';
+import { passwordRegex, setAlert } from '@/ui/constants';
 import { PasswordInput } from '@/ui/PasswordInput';
 
 import * as styles from './ChangePassword.module.scss';
@@ -63,22 +63,17 @@ export const ChangePassword = () => {
       newPassword: passwords.new,
     })
       .then(() => {
-        setAlert('success', 'Password changed successfully.');
+        setAlert('success', 'Password changed successfully.', setAlertInfo);
         setPasswords({ old: '', new: '', confirm: '' });
       })
       .catch((err) => {
         const errorResponse = err.response?.data;
         const errors = [errorResponse?.message || err.message];
-        setAlert('error', errors.join('\n'));
+        setAlert('error', errors.join('\n'), setAlertInfo);
       })
       .finally(() => {
         setLoading(false);
       });
-  };
-
-  const setAlert = (type: 'error' | 'success', message: string) => {
-    setAlertInfo({ type, message });
-    setTimeout(() => setAlertInfo(null), 3500);
   };
 
   return (

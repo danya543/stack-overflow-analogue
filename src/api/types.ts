@@ -93,11 +93,27 @@ export interface Question {
   isResolved: boolean;
 }
 
+export interface GetQuestionResponse {
+  data: Question;
+}
+
 export interface GetQuestionsResponse {
   data: {
     data: Question[];
     meta: Meta;
   };
+}
+export interface CreateQuestionPayload {
+  title: string;
+  description: string;
+  attachedCode: string;
+}
+
+export interface CreateQuestionResponse {
+  id: string;
+  title: string;
+  description: string;
+  attachedCode: string;
 }
 
 export interface GetQuestionsPayload {

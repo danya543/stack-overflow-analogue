@@ -4,7 +4,7 @@ import { changeName } from '@/api/changeName';
 import { ChangeNamePayload } from '@/api/types';
 import { Alert, AlertProps } from '@/ui/Alert/Alert';
 import { Button } from '@/ui/Button';
-import { usernameRegex } from '@/ui/constants';
+import { setAlert, usernameRegex } from '@/ui/constants';
 import { Input } from '@/ui/Input';
 
 import * as styles from './ChangeName.module.scss';
@@ -37,23 +37,18 @@ export const ChangeName = ({ currentName }: { currentName: string }) => {
 
     changeName(username)
       .then(() => {
-        setAlert('success', 'Username changed successfully.');
+        setAlert('success', 'Username changed successfully.', setAlertInfo);
         setCurrentUsername(username.username);
         setUsername({ username: '' });
       })
       .catch((err) => {
         const errorResponse = err.response?.data;
         const errors = [errorResponse?.message || err.message];
-        setAlert('error', errors.join('\n'));
+        setAlert('error', errors.join('\n'), setAlertInfo);
       })
       .finally(() => {
         setLoading(false);
       });
-  };
-
-  const setAlert = (type: 'error' | 'success', message: string) => {
-    setAlertInfo({ type, message });
-    setTimeout(() => setAlertInfo(null), 3500);
   };
 
   const isFormValid =

@@ -43,6 +43,13 @@ export const SideMenu = () => {
         </li>
 
         <li>
+          <Link to="/questions/my" className={styles.link}>
+            <FileText className={styles.icon} />
+            My questions
+          </Link>
+        </li>
+
+        <li>
           <Link to="/users" className={styles.link}>
             <Users className={styles.icon} />
             Users

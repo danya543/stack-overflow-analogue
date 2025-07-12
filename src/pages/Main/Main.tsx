@@ -5,7 +5,7 @@ import { Meta, SnippetProps } from '@/api/types';
 import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
 import { Pagination } from '@/components/Pagination/Pagination';
-import { SnippetCard } from '@/components/Snippet/SnippetCard';
+import { SnippetCard } from '@/components/SnippetCard/SnippetCard';
 import { getUser, SESSION_KEYS } from '@/ui/constants';
 
 export const MainPage = () => {

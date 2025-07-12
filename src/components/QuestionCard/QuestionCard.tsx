@@ -1,11 +1,32 @@
+import { Edit, SquarePlus } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+
 import { Question } from '@/api/types';
 
 import * as styles from './QuestionCard.module.scss';
 
-export const QuestionCard = ({ data }: { data: Question }) => {
+export const QuestionCard = ({ data, type = 'all' }: { data: Question; type?: 'mine' | 'all' }) => {
+  const navigate = useNavigate();
+
+  const handleEditClick = () => {
+    navigate(`/questions/edit/${data.id}`);
+  };
+
   return (
     <div className={styles.container}>
-      <h3>{data.title}</h3>
+      <div className={styles.header}>
+        <h3>{data.title}</h3>
+        <div>
+          {type === 'mine' && (
+            <button onClick={handleEditClick}>
+              <Edit />
+            </button>
+          )}
+          <button onClick={() => console.log('add answer')}>
+            <SquarePlus />
+          </button>
+        </div>
+      </div>
       <p className={styles.userInfo}>
         asked by <strong>{data.user.role}</strong>: {data.user.username}
       </p>
@@ -20,11 +41,15 @@ export const QuestionCard = ({ data }: { data: Question }) => {
 
       <h3>Answers</h3>
       <div className={styles.answers}>
-        {data.answers.map((item) => (
-          <p key={item.id} className={styles.answer}>
-            {item.content} {item.isCorrect && <span className={styles.correct}>✔</span>}
-          </p>
-        ))}
+        {data.answers.length > 0 ? (
+          data.answers.map((item) => (
+            <p key={item.id} className={styles.answer}>
+              {item.content} {item.isCorrect && <span className={styles.correct}>✔</span>}
+            </p>
+          ))
+        ) : (
+          <p>No answers yet(</p>
+        )}
       </div>
     </div>
   );

@@ -1,7 +1,11 @@
+import { Dispatch, SetStateAction } from 'react';
+
 import Hide from '@/assets/icons/hide.png';
 import View from '@/assets/icons/view.png';
 import Logo from '@/assets/logo.png';
 import User from '@/assets/user.png';
+
+import { AlertProps } from './Alert/Alert';
 
 export const IMAGES = {
   Logo: Logo,
@@ -41,3 +45,13 @@ export const localLogoutUser = () => {
 
 export const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).+$/;
 export const usernameRegex = /^[a-zA-Z0-9_-]+$/;
+
+export const setAlert = (
+  type: 'error' | 'success',
+  message: string,
+  onChange: Dispatch<SetStateAction<AlertProps>>,
+  duration: number = 3500,
+) => {
+  onChange({ type, message });
+  setTimeout(() => onChange(null), duration);
+};

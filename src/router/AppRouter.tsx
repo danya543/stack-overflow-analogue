@@ -5,14 +5,17 @@ import { Loader } from '@/components/Loader/Loader';
 import { AccountPage } from '@/pages/Account/Account';
 import { LoginPage } from '@/pages/Authorized/Login';
 import { RegisterPage } from '@/pages/Authorized/Register';
-import { CreateSnippetPage } from '@/pages/createSnippet/CreateSnippet';
-import { EditSnippetPage } from '@/pages/EditSnippet/EditSnippet';
 import { MainPage } from '@/pages/Main/Main';
 import { MainLayout } from '@/pages/MainLayout.tsx/MainLayout';
+import { CreateQuestionPage } from '@/pages/ManageQuestion/CreateQuestion';
+import { EditQuestionPage } from '@/pages/ManageQuestion/EditQuestion';
+import { CreateSnippetPage } from '@/pages/ManageSnippet/CreateSnippet';
+import { EditSnippetPage } from '@/pages/ManageSnippet/EditSnippet';
 import { PostPage } from '@/pages/Post/Post';
 import { QuestionsPage } from '@/pages/Questions/Questions';
 import { SignLayout } from '@/pages/SignLayout/SignLayout';
 import { UserPage } from '@/pages/User/User';
+import { UserQuestionsPage } from '@/pages/UserQuestions/UserQuestions';
 import { UsersPage } from '@/pages/Users/Users';
 import { UserSnippetsPage } from '@/pages/UserSnippets/UserSnippets';
 
@@ -82,6 +85,30 @@ export const router = createBrowserRouter([
         element: (
           <Suspense fallback={<Loader />}>
             <QuestionsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/questions/new',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <CreateQuestionPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/questions/my',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <UserQuestionsPage />
+          </Suspense>
+        ),
+      },
+      {
+        path: '/questions/edit/:id',
+        element: (
+          <Suspense fallback={<Loader />}>
+            <EditQuestionPage />
           </Suspense>
         ),
       },

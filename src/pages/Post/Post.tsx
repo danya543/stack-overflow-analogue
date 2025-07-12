@@ -6,7 +6,7 @@ import { createComment } from '@/api/createComment';
 import { getSnippet } from '@/api/getSnippet';
 import { SnippetProps } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
-import { SnippetCard } from '@/components/Snippet/SnippetCard';
+import { SnippetCard } from '@/components/SnippetCard/SnippetCard';
 import { socket } from '@/socket';
 import { getUser } from '@/ui/constants';
 import { Input } from '@/ui/Input';

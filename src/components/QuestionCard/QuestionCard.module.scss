@@ -3,7 +3,7 @@
     padding: 16px;
     border-radius: 8px;
     background-color: #fff;
-    max-width: 600px;
+    min-width: 450px;
     margin-bottom: 20px;
     font-family: Arial, sans-serif;
 
@@ -12,6 +12,12 @@
         color: #555;
         margin-bottom: 10px;
     }
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .description,

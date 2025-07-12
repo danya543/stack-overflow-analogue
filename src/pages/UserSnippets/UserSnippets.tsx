@@ -1,28 +1,29 @@
 import { useEffect, useState } from 'react';
 
+import { MAX_TOTAL_ITEMS } from '@/api/constants';
 import { getSnippets } from '@/api/getSnippets';
 import { SnippetProps } from '@/api/types';
 import { Error } from '@/components/Error/Error';
 import { Loader } from '@/components/Loader/Loader';
-import { SnippetCard } from '@/components/Snippet/SnippetCard';
+import { SnippetCard } from '@/components/SnippetCard/SnippetCard';
 import { getUser } from '@/ui/constants';
 
 export const UserSnippetsPage = () => {
   const [data, setData] = useState<SnippetProps[] | null>(null);
   const [errorMsg, setErrorMsg] = useState<string>('');
-  const [totalItems, setTotalItems] = useState<number>(100);
+  const [totalItems, setTotalItems] = useState<number>(MAX_TOTAL_ITEMS);
 
   const userId = getUser('id');
 
   useEffect(() => {
     const fetchSnippets = async (limit: number) => {
       try {
-        const response = await getSnippets({ page: 1, limit });
+        const response = await getSnippets({ limit });
         const total = response.data.meta.totalItems;
 
         if (total > limit) {
           setTotalItems(total);
-          const retryResponse = await getSnippets({ page: 1, limit: total });
+          const retryResponse = await getSnippets({ limit: total });
           const filtered = retryResponse.data.data.filter((el) => el.user.id === userId);
           setData(filtered);
         } else {

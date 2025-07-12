@@ -7,8 +7,8 @@ import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { addMark } from '@/api/mark';
 import { SnippetProps } from '@/api/types';
 import { socket } from '@/socket';
-import { Alert } from '@/ui/Alert/Alert';
-import { getUser } from '@/ui/constants';
+import { Alert, AlertProps } from '@/ui/Alert/Alert';
+import { getUser, setAlert } from '@/ui/constants';
 
 import * as styles from './SnippetCard.module.scss';
 
@@ -34,8 +34,8 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
   const [mark, setMark] = useState<'like' | 'dislike' | 'none'>(initialMark);
   const [likesCount, setLikesCount] = useState(likes.length);
   const [dislikesCount, setDislikesCount] = useState(dislikes.length);
-  const [showAlert, setShowAlert] = useState(false);
   const [showComments, setShowComments] = useState(false);
+  const [alertInfo, setAlertInfo] = useState<AlertProps | null>(null);
 
   useEffect(() => {
     socket.on('markUpdated', ({ snippetId, likes, dislikes }) => {
@@ -52,8 +52,7 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
 
   const handleMark = async (id: number, type: 'like' | 'dislike') => {
     if (!isLogged) {
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3500);
+      setAlert('error', 'Please log in to vote and see comments', setAlertInfo);
       return;
     }
 
@@ -92,22 +91,21 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
       if (type === 'main') navigate(`/post/${data.id}`);
       else setShowComments((prev) => !prev);
     } else {
-      setShowAlert(true);
-      setTimeout(() => setShowAlert(false), 3500);
+      setAlert('error', 'Please log in to vote and see comments', setAlertInfo);
     }
   };
 
   return (
     <div className={styles.snippet}>
-      {showAlert && (
-        <Alert type="error" message="Please log in to vote and see comments" duration={3000} />
-      )}
+      {alertInfo && <Alert type={alertInfo.type} message={alertInfo.message} />}
 
       <h3 className={styles.language}>{data.language} Snippet</h3>
       <p className={styles.author}>snippet by: {data.user.username}</p>
-      <button onClick={() => navigate(`/snippets/edit/${data.id}`)} className={styles.editBtn}>
-        <Edit />
-      </button>
+      {type === 'mine' && (
+        <button onClick={() => navigate(`/snippets/edit/${data.id}`)} className={styles.editBtn}>
+          <Edit />
+        </button>
+      )}
 
       <div className={styles.code}>
         <SyntaxHighlighter

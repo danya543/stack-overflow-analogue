@@ -16,7 +16,8 @@ header {
 }
 
 .content {
-  width: calc(100vw - 28%);
+  box-sizing: border-box;
+  width: calc(100vw - 25%);
   margin-left: 25%;
   height: calc(100vh - 100px);
   overflow-y: auto;

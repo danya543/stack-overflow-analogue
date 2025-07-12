@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 
 import { getQuestions } from '@/api/getQuestions';
 import { Question } from '@/api/types';
@@ -49,6 +50,10 @@ export const QuestionsPage = () => {
 
       {!loading && data.length > 0 && (
         <>
+          <div className={styles.header}>
+            <h1>Questions</h1>
+            <Link to={'/questions/new'}>Ask question</Link>
+          </div>
           {data.map((item) => (
             <QuestionCard key={item.id} data={item} />
           ))}
