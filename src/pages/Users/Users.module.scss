@@ -1,0 +1,30 @@
+.container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+    padding: 16px;
+    justify-content: center;
+}
+
+.user {
+    cursor: pointer;
+    border: 1px solid rgb(110, 110, 255);
+    border-radius: 8px;
+    padding: 12px;
+    background-color: #f9f9ff;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-size: 14px;
+
+    &:hover {
+        background-color: rgb(180, 180, 255);
+        transform: translateY(-2px);
+    }
+
+    p {
+        margin: 0;
+    }
+}

@@ -1,0 +1,38 @@
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.noQuestions {
+    text-align: center;
+    color: #666;
+    font-size: 18px;
+    margin-top: 40px;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    font-family: Arial, sans-serif;
+
+    h1 {
+        font-size: 25px;
+    }
+
+    a {
+        text-decoration: none;
+        background: #1b89ff;
+        color: white;
+        padding: 8px;
+        border-radius: 6px;
+
+        &:hover {
+            background: #429dff;
+        }
+    }
+}
