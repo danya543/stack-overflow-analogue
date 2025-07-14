@@ -39,9 +39,10 @@ export interface GetUserInfoPayload {
 }
 
 // Snippet
+export type MarkType = 'like' | 'dislike' | 'none';
 export interface Mark {
   id: string;
-  type: string;
+  type: MarkType;
   user: UserBase;
 }
 
@@ -242,3 +243,60 @@ export interface ChangeNamePayload {
 export interface ChangeNameResponse {
   updatedCount: number;
 }
+
+export interface UpdAnswerPayload {
+  content: string;
+}
+export interface CreateAnswerPayload extends UpdAnswerPayload {
+  questionId: string;
+}
+
+export interface CreateAnswerResponse {
+  data: {
+    content: string;
+    id: string;
+    isCorrect: boolean;
+    question: Question;
+    user: UserBase;
+  };
+}
+
+export type EntityType = 'comments' | 'questions' | 'snippets' | 'answers';
+
+export type UpdPayloadMap = {
+  comments: UpdateCommentPayload;
+  questions: CreateQuestionPayload;
+  snippets: CreateSnippetPayload;
+  answers: UpdAnswerPayload;
+};
+
+export type UpdResponseMap = {
+  comments: UpdateCommentResponse;
+  questions: CreateQuestionResponse;
+  snippets: CreateSnippetResponse;
+  answers: CreateAnswerResponse;
+};
+
+export type CreatePayloadMap = {
+  comments: CreateCommentPayload;
+  questions: CreateQuestionPayload;
+  snippets: CreateSnippetPayload;
+  answers: CreateAnswerPayload;
+};
+
+export type CreateResponseMap = {
+  comments: CreateCommentResponse;
+  questions: CreateQuestionResponse;
+  snippets: CreateSnippetResponse;
+  answers: CreateAnswerResponse;
+};
+
+export type ItemType = 'comment' | 'question' | 'snippet' | 'account' | 'answer';
+
+export type DeleteResponseMap = {
+  comment: Comment;
+  question: Question;
+  snippet: SnippetProps;
+  account: UserBase;
+  answer: Answer;
+};

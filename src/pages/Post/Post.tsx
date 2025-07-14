@@ -2,7 +2,7 @@ import { Send } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { createComment } from '@/api/createComment';
+import { createEntity } from '@/api/creaeteEntity';
 import { getSnippet } from '@/api/getSnippet';
 import { SnippetProps } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
@@ -56,7 +56,10 @@ export const PostPage = () => {
     }
 
     try {
-      const response = await createComment({ content: trimmed, snippetId: id });
+      const response = await createEntity('comments', {
+        content: trimmed,
+        snippetId: id,
+      });
       const newComment = response.data;
 
       setData((prev) => (prev ? { ...prev, comments: [...prev.comments, newComment] } : prev));
@@ -76,7 +79,7 @@ export const PostPage = () => {
         <div>
           <SnippetCard data={data} userId={userId} key={data.id} type={'post'} />
           <div className={styles.addComment}>
-            <Input placeholder={'Add you comment'} value={commentMsg} onChange={handleInput} />
+            <Input placeholder={'Add your comment'} value={commentMsg} onChange={handleInput} />
             <button type="submit" onClick={handleSubmit}>
               <Send />
             </button>

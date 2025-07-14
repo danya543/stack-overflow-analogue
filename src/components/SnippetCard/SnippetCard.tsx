@@ -1,16 +1,18 @@
-import { Edit, MessageCircle, ThumbsDown, ThumbsUp } from 'lucide-react';
+import { Edit, Trash } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
+import { deleteItem } from '@/api/delItem';
 import { addMark } from '@/api/mark';
-import { SnippetProps } from '@/api/types';
+import { MarkType, SnippetProps } from '@/api/types';
 import { socket } from '@/socket';
 import { Alert, AlertProps } from '@/ui/Alert/Alert';
 import { getUser, setAlert } from '@/ui/constants';
 
+import { SnippetActions } from './SnippetActions';
 import * as styles from './SnippetCard.module.scss';
+import { SnippetCode } from './SnippetCode';
+import { SnippetComments } from './SnippetComments';
 
 interface SnippetCardProps {
   data: SnippetProps;
@@ -21,79 +23,84 @@ interface SnippetCardProps {
 export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
   const isLogged = getUser('auth');
   const navigate = useNavigate();
+  const likes = data.marks.filter((m) => m.type === 'like');
+  const dislikes = data.marks.filter((m) => m.type === 'dislike');
 
-  const likes = data.marks.filter((mark) => mark.type === 'like');
-  const dislikes = data.marks.filter((mark) => mark.type === 'dislike');
-
-  const initialMark = likes.some((mark) => mark.user.id === userId)
+  const initialMark = likes.some((m) => m.user.id === userId)
     ? 'like'
-    : dislikes.some((mark) => mark.user.id === userId)
+    : dislikes.some((m) => m.user.id === userId)
       ? 'dislike'
       : 'none';
 
-  const [mark, setMark] = useState<'like' | 'dislike' | 'none'>(initialMark);
-  const [likesCount, setLikesCount] = useState(likes.length);
-  const [dislikesCount, setDislikesCount] = useState(dislikes.length);
+  const [mark, setMark] = useState<MarkType>(initialMark);
+  const [likesCount, setLikes] = useState(likes.length);
+  const [dislikesCount, setDislikes] = useState(dislikes.length);
   const [showComments, setShowComments] = useState(false);
   const [alertInfo, setAlertInfo] = useState<AlertProps | null>(null);
+  const [isDeleted, setIsDeleted] = useState(false);
 
   useEffect(() => {
-    socket.on('markUpdated', ({ snippetId, likes, dislikes }) => {
+    const handler = ({
+      snippetId,
+      likes,
+      dislikes,
+    }: {
+      snippetId: number;
+      likes: number;
+      dislikes: number;
+    }) => {
       if (snippetId === data.id) {
-        setLikesCount(likes);
-        setDislikesCount(dislikes);
+        setLikes(likes);
+        setDislikes(dislikes);
       }
-    });
+    };
+
+    socket.on('markUpdated', handler);
 
     return () => {
-      socket.off('markUpdated');
+      socket.off('markUpdated', handler);
     };
   }, [data.id]);
 
-  const handleMark = async (id: number, type: 'like' | 'dislike') => {
+  const handleMark = async (type: 'like' | 'dislike') => {
     if (!isLogged) {
       setAlert('error', 'Please log in to vote and see comments', setAlertInfo);
       return;
     }
 
-    let newMark: 'like' | 'dislike' | 'none' = mark === type ? 'none' : type;
-
-    if (type === 'like') {
-      if (mark === 'like') {
-        setLikesCount((prev) => prev - 1);
-      } else if (mark === 'dislike') {
-        setDislikesCount((prev) => prev - 1);
-        setLikesCount((prev) => prev + 1);
-      } else {
-        setLikesCount((prev) => prev + 1);
-      }
-    } else if (type === 'dislike') {
-      if (mark === 'dislike') {
-        setDislikesCount((prev) => prev - 1);
-      } else if (mark === 'like') {
-        setLikesCount((prev) => prev - 1);
-        setDislikesCount((prev) => prev + 1);
-      } else {
-        setDislikesCount((prev) => prev + 1);
-      }
-    }
-
+    const newMark = mark === type ? 'none' : type;
     setMark(newMark);
+    if (type === 'like') {
+      setLikes((prev) => prev + (mark === 'dislike' ? 1 : mark === 'like' ? -1 : 1));
+      setDislikes((prev) => (mark === 'dislike' ? prev - 1 : prev));
+    } else {
+      setDislikes((prev) => prev + (mark === 'like' ? 1 : mark === 'dislike' ? -1 : 1));
+      setLikes((prev) => (mark === 'like' ? prev - 1 : prev));
+    }
 
-    addMark({ id, content: { mark: newMark } }).catch((err) => {
-      console.error('Failed to set mark:', err);
-    });
-    socket.emit('markChanged', { snippetId: id, mark: newMark });
+    await addMark({ id: data.id, content: { mark: newMark } });
+    socket.emit('markChanged', { snippetId: data.id, mark: newMark });
   };
 
-  const handleOpenComments = () => {
-    if (isLogged) {
-      if (type === 'main') navigate(`/post/${data.id}`);
-      else setShowComments((prev) => !prev);
-    } else {
-      setAlert('error', 'Please log in to vote and see comments', setAlertInfo);
+  const updateComments = (id: string, newContent: string) => {
+    const updated = data.comments.map((c) => (c.id === id ? { ...c, content: newContent } : c));
+    data.comments = updated;
+  };
+
+  const handleDeleteSnippet = async () => {
+    try {
+      await deleteItem('snippet', data.id);
+      setAlertInfo({
+        type: 'success',
+        message: 'Snippet successfully deleted',
+      });
+      setIsDeleted(true);
+    } catch {
+      setAlertInfo({ type: 'error', message: 'Failed to delete snippet' });
     }
   };
+
+  if (isDeleted) return null;
 
   return (
     <div className={styles.snippet}>
@@ -101,62 +108,44 @@ export const SnippetCard = ({ data, userId, type }: SnippetCardProps) => {
 
       <h3 className={styles.language}>{data.language} Snippet</h3>
       <p className={styles.author}>snippet by: {data.user.username}</p>
+
       {type === 'mine' && (
-        <button onClick={() => navigate(`/snippets/edit/${data.id}`)} className={styles.editBtn}>
-          <Edit />
-        </button>
+        <div className={styles.editBtn}>
+          <button onClick={() => navigate(`/snippets/edit/${data.id}`)}>
+            <Edit />
+          </button>
+          <button onClick={handleDeleteSnippet}>
+            <Trash />
+          </button>
+        </div>
       )}
 
-      <div className={styles.code}>
-        <SyntaxHighlighter
-          language={data.language.toLowerCase()}
-          style={vscDarkPlus}
-          showLineNumbers
-          customStyle={{ background: 'transparent', padding: 0 }}
-        >
-          {data.code}
-        </SyntaxHighlighter>
-      </div>
+      <SnippetCode language={data.language} code={data.code} />
 
-      <div className={styles.actions}>
-        <div className={styles.marks}>
-          <div className={styles.thumbs} onClick={() => handleMark(data.id, 'like')}>
-            <ThumbsUp
-              size={18}
-              color={mark === 'like' ? '#000000' : '#4caf50'}
-              fill={mark === 'like' ? '#4caf50' : 'none'}
-            />
-            <span>{likesCount}</span>
-          </div>
-          <div className={styles.thumbs} onClick={() => handleMark(data.id, 'dislike')}>
-            <ThumbsDown
-              size={18}
-              color={mark === 'dislike' ? '#000000' : '#f44336'}
-              fill={mark === 'dislike' ? '#f44336' : 'none'}
-            />
-            <span>{dislikesCount}</span>
-          </div>
-        </div>
+      <SnippetActions
+        mark={mark}
+        likes={likesCount}
+        dislikes={dislikesCount}
+        commentsCount={data.comments.length}
+        onLike={() => handleMark('like')}
+        onDislike={() => handleMark('dislike')}
+        onCommentsClick={() => {
+          if (!isLogged) {
+            setAlert('error', 'Please log in to vote and see comments', setAlertInfo);
+            return;
+          }
+          if (type === 'mine' || type === 'main') navigate(`/post/${data.id}`);
+          else setShowComments((prev) => !prev);
+        }}
+      />
 
-        <button className={styles.commentsButton} onClick={handleOpenComments}>
-          <MessageCircle size={18} /> Comments ({data.comments.length})
-        </button>
-      </div>
-
-      {(type === 'mine' || type === 'post') && showComments && (
-        <div className={styles.comments}>
-          {data.comments.length > 0 ? (
-            data.comments.map((comment) => (
-              <div key={comment.id} className={styles.comment}>
-                <p>
-                  <strong>{comment.user.username}</strong>: {comment.content}
-                </p>
-              </div>
-            ))
-          ) : (
-            <Alert type="info" message="No comments for this snippet yet(" />
-          )}
-        </div>
+      {type === 'post' && showComments && (
+        <SnippetComments
+          comments={data.comments}
+          userId={userId}
+          setAlertInfo={setAlertInfo}
+          updateComments={updateComments}
+        />
       )}
     </div>
   );

@@ -6,10 +6,12 @@ import { Question } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
 import { Pagination } from '@/components/Pagination/Pagination';
 import { QuestionCard } from '@/components/QuestionCard/QuestionCard';
+import { getUser } from '@/ui/constants';
 
 import * as styles from './Questions.module.scss';
 
 export const QuestionsPage = () => {
+  const userId = getUser('id');
   const [data, setData] = useState<Question[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -55,7 +57,7 @@ export const QuestionsPage = () => {
             <Link to={'/questions/new'}>Ask question</Link>
           </div>
           {data.map((item) => (
-            <QuestionCard key={item.id} data={item} />
+            <QuestionCard key={item.id} data={item} userId={userId} />
           ))}
 
           <Pagination

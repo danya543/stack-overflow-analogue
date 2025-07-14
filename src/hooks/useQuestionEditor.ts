@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { createQuestion } from '@/api/createQuestion';
+import { createEntity } from '@/api/creaeteEntity';
 import { getQuestion } from '@/api/getQuestion';
 import { CreateQuestionPayload } from '@/api/types';
-import { updQuestion } from '@/api/updQuestion';
+import { updateEntity } from '@/api/updEntity';
 
 type AlertType = 'success' | 'error';
 
@@ -59,14 +59,14 @@ export const useQuestionEditor = (mode: 'create' | 'edit', id?: string) => {
 
     try {
       if (mode === 'create') {
-        await createQuestion(questionContent);
+        await createEntity('questions', questionContent);
         setQuestionContent({ title: '', description: '', attachedCode: '' });
         setAlert({
           type: 'success',
           message: 'Question successfully created!',
         });
       } else if (mode === 'edit' && id) {
-        await updQuestion(id, questionContent);
+        await updateEntity('questions', id, questionContent);
         setAlert({
           type: 'success',
           message: 'Question successfully updated!',

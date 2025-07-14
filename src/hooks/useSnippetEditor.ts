@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { createSnippet } from '@/api/createSnippet';
+import { createEntity } from '@/api/creaeteEntity';
 import { getLanguages } from '@/api/getLanguages';
 import { getSnippet } from '@/api/getSnippet';
 import { CreateSnippetPayload } from '@/api/types';
-import { updSnippet } from '@/api/updSnippet';
+import { updateEntity } from '@/api/updEntity';
 
 type AlertType = 'success' | 'error';
 
@@ -90,11 +90,11 @@ export const useSnippetEditor = (mode: 'create' | 'edit', id?: string) => {
       setIsSubmitting(true);
 
       if (mode === 'create') {
-        await createSnippet(snippetContent);
+        await createEntity('snippets', snippetContent);
         setSnippetContent({ code: '', language: '' });
         setAlert({ type: 'success', message: 'Snippet successfully created!' });
       } else if (mode === 'edit' && id) {
-        await updSnippet(id, snippetContent);
+        await updateEntity('snippets', id, snippetContent);
         setAlert({ type: 'success', message: 'Snippet successfully updated!' });
         setTimeout(() => {
           setAlert(null);

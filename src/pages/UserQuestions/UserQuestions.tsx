@@ -65,7 +65,7 @@ export const UserQuestionsPage = () => {
         ) : (
           <>
             {data.map((item) => (
-              <QuestionCard key={item.id} data={item} type="mine" />
+              <QuestionCard key={item.id} data={item} userId={userId} />
             ))}
           </>
         )

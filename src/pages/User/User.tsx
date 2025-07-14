@@ -1,10 +1,10 @@
+import { ChevronLeft } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 import { getUserInfo } from '@/api/getUserInfo';
 import { UserWithStatistic } from '@/api/types';
 import { Loader } from '@/components/Loader/Loader';
-import { Button } from '@/ui/Button';
 
 import * as styles from './User.module.scss';
 
@@ -33,7 +33,9 @@ export const UserPage = () => {
     <section className={styles.container}>
       {data ? (
         <div>
-          <Button onClick={() => window.history.back()} text="back" />
+          <button onClick={() => window.history.back()}>
+            <ChevronLeft />
+          </button>
           <h3>{data.username}</h3>
           <p>{data.role}</p>
           <ul>

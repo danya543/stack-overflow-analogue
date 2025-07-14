@@ -2,7 +2,7 @@ import { LogOut, Trash2 } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { deleteAccount } from '@/api/delAccount';
+import { deleteItem } from '@/api/delItem';
 import { logoutUser } from '@/api/logout';
 import { UserWithStatistic } from '@/api/types';
 import { Alert } from '@/ui/Alert/Alert';
@@ -24,10 +24,11 @@ export const UserInfo = ({ data }: { data: UserWithStatistic }) => {
     navigate('/');
   };
   const handleDelAccount = () => {
-    deleteAccount();
+    deleteItem('account');
     localLogoutUser();
     navigate('/');
   };
+
   return (
     <div className={styles.container}>
       {showAlert && <Alert type={'success'} message={'Logged out success'} />}
